@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: video-service
+          uri: lb://video-service
+          predicates:
+            - Path=/api/videos/**
+
+        - id: transcription-service
+          uri: lb://transcription-service
+          predicates:
+            - Path=/api/transcription/**
+
+        - id: correction-service
+          uri: lb://correction-service
+          predicates:
+            - Path=/api/correction/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
